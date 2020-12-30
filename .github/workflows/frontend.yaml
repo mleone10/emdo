@@ -25,4 +25,4 @@ jobs:
           git config --local user.name "mleone10"
           git add -A
           git commit -m "Updating site"
-          git push -f "https://${{ env.GITHUB_ACTOR }}:${{ secrets.GITHUB_TOKEN }}@github.com/mleone10/endpoint.git" HEAD:gh-pages
+          git push -f "https://${{ env.GITHUB_ACTOR }}:${{ secrets.GITHUB_TOKEN }}@github.com/mleone10/emdo.git" HEAD:gh-pages
