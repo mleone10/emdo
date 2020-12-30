@@ -8,7 +8,8 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faBars,
+  faHome,
+  faUsers,
   faTasks,
   faClipboardList,
   faProjectDiagram,
@@ -45,7 +46,7 @@ function App() {
 function NavDrawer() {
   return (
     <div className="navDrawer">
-      <NavBurger />
+      <NavLink icon={faHome} path="/" />
       <NavProfile />
       <NavDivider />
       <NavLink icon={faTasks} path="/" />
@@ -55,21 +56,17 @@ function NavDrawer() {
   );
 }
 
-function NavBurger() {
-  return <FontAwesomeIcon icon={faBars} className="navBurger" />;
-}
-
 function NavProfile() {
   return (
-    auth.currentUser && (
-      <Link to="/profile">
+    (auth.currentUser && (
+      <Link to="/profile" className="navLastElement navItem">
         <img
           src={auth.currentUser.photoURL}
           alt={auth.currentUser.displayName}
           className="navProfile"
         />
       </Link>
-    )
+    )) || <FontAwesomeIcon icon={faUsers} className="navLastElement navItem" />
   );
 }
 
@@ -79,7 +76,7 @@ function NavDivider() {
 
 function NavLink(props) {
   return (
-    <Link to={props.path} className="navLink">
+    <Link to={props.path} className="navItem">
       <FontAwesomeIcon icon={props.icon} />
     </Link>
   );

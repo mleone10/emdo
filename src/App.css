@@ -22,14 +22,16 @@ body {
   text-align: center;
 }
 
-.navBurger {
-  padding-bottom: 0.4em;
+.navItem.navLastElement {
+  padding-bottom: 0.1em;
 }
 
-.navProfile {
+img.navProfile {
   width: 65%;
   border-radius: 50%;
   border: 3px solid white;
+  display: block;
+  margin: auto;
 }
 
 .navDivider {
@@ -41,7 +43,7 @@ body {
   margin-block-start: 0.3em;
 }
 
-.navLink {
+.navItem {
   color: white;
   padding-bottom: 0.3em;
 }
