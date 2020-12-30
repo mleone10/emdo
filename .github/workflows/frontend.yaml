@@ -21,6 +21,7 @@ jobs:
       - name: Deploy page
         run: |
           mv build docs
+          echo "emdo.dev" > docs/CNAME
           git config --local user.email "${{ secrets.EMAIL }}"
           git config --local user.name "mleone10"
           git add -A
