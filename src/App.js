@@ -1,9 +1,18 @@
 import React, { useState } from "react";
+import { HashRouter as Router, Route, Link } from "react-router-dom";
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBars,
+  faTasks,
+  faClipboardList,
+  faProjectDiagram,
+} from "@fortawesome/free-solid-svg-icons";
 
 import "./App.css";
 
@@ -26,14 +35,75 @@ function App() {
   const [user] = useAuthState(auth);
 
   return (
-    <div className="app">
-      <header>
-        <h1>emdo</h1>
-        <SignOut />
-      </header>
-      {user ? <Tasks /> : <SignIn />}
+    <Router className="app">
+      <NavDrawer />
+      <Content user={user} />
+    </Router>
+  );
+}
+
+function NavDrawer() {
+  return (
+    <div className="navDrawer">
+      <NavBurger />
+      <NavProfile />
+      <NavDivider />
+      <NavLink icon={faTasks} path="/" />
+      <NavLink icon={faClipboardList} path="/projects" />
+      <NavLink icon={faProjectDiagram} path="/contexts" />
     </div>
   );
+}
+
+function NavBurger() {
+  return <FontAwesomeIcon icon={faBars} className="navBurger" />;
+}
+
+function NavProfile() {
+  return (
+    auth.currentUser && (
+      <Link to="/profile">
+        <img
+          src={auth.currentUser.photoURL}
+          alt={auth.currentUser.displayName}
+          className="navProfile"
+        />
+      </Link>
+    )
+  );
+}
+
+function NavDivider() {
+  return <hr className="navDivider" />;
+}
+
+function NavLink(props) {
+  return (
+    <Link to={props.path} className="navLink">
+      <FontAwesomeIcon icon={props.icon} />
+    </Link>
+  );
+}
+
+function Content(props) {
+  return (
+    <div>
+      <Route exact={true} path="/">
+        <NextActions user={props.user} />
+      </Route>
+      <Route exact={true} path="/profile">
+        <Profile />
+      </Route>
+    </div>
+  );
+}
+
+function NextActions(props) {
+  return <div>{props.user ? <Tasks /> : <SignIn />}</div>;
+}
+
+function Profile() {
+  return <SignOut />;
 }
 
 function SignIn() {

@@ -2,17 +2,46 @@ body {
   background-color: #282c34;
 }
 
-.app {
+#root {
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   font-size: calc(10px + 2vmin);
   color: white;
-  max-width: 80%;
   margin: auto;
 }
 
-.app header {
+.navDrawer {
+  background-color: orange;
+  width: 1.7em;
+  padding-top: 0.5em;
+  font-size: 1.5em;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   text-align: center;
+}
+
+.navBurger {
+  padding-bottom: 0.4em;
+}
+
+.navProfile {
+  width: 65%;
+  border-radius: 50%;
+  border: 3px solid white;
+}
+
+.navDivider {
+  width: 70%;
+  border-width: 0;
+  height: 3px;
+  background-color: white;
+  border-radius: 3px;
+  margin-block-start: 0.3em;
+}
+
+.navLink {
+  color: white;
+  padding-bottom: 0.3em;
 }
