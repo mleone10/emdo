@@ -1,20 +1,13 @@
 import React, { useState } from "react";
-import { HashRouter as Router, Route, Link } from "react-router-dom";
+import { HashRouter as Router, Route } from "react-router-dom";
+
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHome,
-  faUsers,
-  faTasks,
-  faClipboardList,
-  faProjectDiagram,
-} from "@fortawesome/free-solid-svg-icons";
-
+import NavDrawer from "./NavDrawer";
 import "./App.css";
 
 if (!firebase.apps.length) {
@@ -37,48 +30,9 @@ function App() {
 
   return (
     <Router className="app">
-      <NavDrawer />
+      <NavDrawer auth={auth} />
       <Content user={user} />
     </Router>
-  );
-}
-
-function NavDrawer() {
-  return (
-    <div className="navDrawer">
-      <NavLink icon={faHome} path="/" />
-      <NavProfile />
-      <NavDivider />
-      <NavLink icon={faTasks} path="/" />
-      <NavLink icon={faClipboardList} path="/projects" />
-      <NavLink icon={faProjectDiagram} path="/contexts" />
-    </div>
-  );
-}
-
-function NavProfile() {
-  return (
-    (auth.currentUser && (
-      <Link to="/profile" className="navLastElement navItem">
-        <img
-          src={auth.currentUser.photoURL}
-          alt={auth.currentUser.displayName}
-          className="navProfile"
-        />
-      </Link>
-    )) || <FontAwesomeIcon icon={faUsers} className="navLastElement navItem" />
-  );
-}
-
-function NavDivider() {
-  return <hr className="navDivider" />;
-}
-
-function NavLink(props) {
-  return (
-    <Link to={props.path} className="navItem">
-      <FontAwesomeIcon icon={props.icon} />
-    </Link>
   );
 }
 
