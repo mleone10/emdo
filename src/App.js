@@ -1,5 +1,10 @@
-import React, { useState } from "react";
-import { HashRouter as Router, Route } from "react-router-dom";
+import React, { Fragment, useState } from "react";
+import {
+  HashRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from "react-router-dom";
 
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -26,35 +31,76 @@ const auth = firebase.auth();
 const firestore = firebase.firestore();
 
 function App() {
-  const [user] = useAuthState(auth);
+  useAuthState(auth);
 
   return (
     <Router className="app">
       <NavDrawer auth={auth} />
-      <Content user={user} />
+      <Content />
     </Router>
   );
 }
 
-function Content(props) {
+function Content() {
   return (
-    <div>
+    <Switch>
       <Route exact={true} path="/">
-        <NextActions user={props.user} />
+        <HomePage />
       </Route>
       <Route exact={true} path="/profile">
         <Profile />
       </Route>
+      <Route exact={true} path="/projects">
+        <Projects />
+      </Route>
+      <Route exact={true} path="/contexts">
+        <Contexts />
+      </Route>
+    </Switch>
+  );
+}
+
+function HomePage() {
+  return (
+    <div className="contentPage">
+      {auth.currentUser ? (
+        <Fragment>
+          <h1>Next Actions</h1>
+          <Tasks />
+        </Fragment>
+      ) : (
+        <Fragment>
+          <h1>emdo</h1>
+          <SignIn />
+        </Fragment>
+      )}
     </div>
   );
 }
 
-function NextActions(props) {
-  return <div>{props.user ? <Tasks /> : <SignIn />}</div>;
+function Profile() {
+  return (
+    <div className="contentPage">
+      <h1>Profile</h1>
+      <SignOut />
+    </div>
+  );
 }
 
-function Profile() {
-  return <SignOut />;
+function Projects() {
+  return (
+    <div className="contentPage">
+      <h1>Projects</h1>
+    </div>
+  );
+}
+
+function Contexts() {
+  return (
+    <div className="contentPage">
+      <h1>Contexts</h1>
+    </div>
+  );
 }
 
 function SignIn() {
@@ -66,8 +112,22 @@ function SignIn() {
 }
 
 function SignOut() {
+  const [toHome, setToHome] = useState(!auth.currentUser);
+  if (toHome) {
+    return <Redirect to="/" />;
+  }
+
   return (
-    auth.currentUser && <button onClick={() => auth.signOut()}>Sign Out</button>
+    auth.currentUser && (
+      <button
+        onClick={() => {
+          auth.signOut();
+          setToHome(true);
+        }}
+      >
+        Sign Out
+      </button>
+    )
   );
 }
 

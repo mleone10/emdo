@@ -10,16 +10,21 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import "./NavDrawer.css";
+import { Fragment } from "react";
 
 function NavDrawer(props) {
   return (
     <div className="navDrawer">
       <NavLink icon={faHome} path="/" />
-      <NavProfile auth={props.auth} />
-      <NavDivider />
-      <NavLink icon={faTasks} path="/" />
-      <NavLink icon={faClipboardList} path="/projects" />
-      <NavLink icon={faProjectDiagram} path="/contexts" />
+      {props.auth.currentUser && (
+        <Fragment>
+          <NavProfile auth={props.auth} />
+          <NavDivider />
+          <NavLink icon={faTasks} path="/" />
+          <NavLink icon={faClipboardList} path="/projects" />
+          <NavLink icon={faProjectDiagram} path="/contexts" />
+        </Fragment>
+      )}
     </div>
   );
 }
